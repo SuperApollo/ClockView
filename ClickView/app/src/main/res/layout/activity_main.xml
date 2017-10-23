@@ -12,7 +12,46 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         app:discRadius="150dp"
-        app:pointRadius="5dp"
-        />
+        app:pointRadius="5dp" />
+
+    <EditText
+        android:id="@+id/et_hour"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="时" />
+
+    <EditText
+        android:id="@+id/et_minute"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/et_hour"
+        android:gravity="center"
+        android:hint="分" />
+
+    <EditText
+        android:id="@+id/et_second"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/et_minute"
+        android:gravity="center"
+        android:hint="秒" />
+
+    <Button
+        android:id="@+id/btn_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/et_second"
+        android:text="设置时间" />
+
+    <Button
+        android:id="@+id/btn_now"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btn_set"
+        android:layout_alignRight="@+id/btn_set"
+        android:layout_below="@+id/btn_set"
+        android:text="当前时间" />
+
 
 </RelativeLayout>

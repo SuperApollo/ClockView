@@ -59,7 +59,7 @@ public class ClockView extends View {
     /**
      * 获取当前时间
      */
-    private void getCurrentTime() {
+    public void getCurrentTime() {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
         String time = format.format(date);
