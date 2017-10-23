@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ClockView">
+        <attr name="discRadius" format="dimension"/>//表盘半径
+        <attr name="discColor" format="color"/>//表盘颜色
+        <attr name="discPadding" format="dimension"/>//表盘内部间距
+        <attr name="pointRadius" format="dimension"/>//圆心小点半径
+        <attr name="pointColor" format="color"/>//小圆点颜色
+        <attr name="edgeWidth" format="dimension"/>//表盘边缘宽度
+    </declare-styleable>
+</resources>
