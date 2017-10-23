@@ -12,7 +12,11 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         app:discRadius="150dp"
-        app:pointRadius="5dp" />
+        app:discLongColor="@color/richGold"
+        app:discShortWidth="2dp"
+        app:discShortColor="@color/richGold"
+        app:discLongWidth="4dp"
+        app:textFont="30" />
 
     <EditText
         android:id="@+id/et_hour"

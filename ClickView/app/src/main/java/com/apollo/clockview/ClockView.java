@@ -32,6 +32,23 @@ public class ClockView extends View {
     private float mMinuteRotate = 0;//分针旋转度数
     private float mHourRotate = 0;//时针旋转度数
     private float mEdgeWidth = 20;//表盘边缘宽度
+    private float mDiscLongWidth = 4;//长刻度的宽度
+    private float mDiscLongLength = 50;//长刻度的长度
+    private int mDiscLongColor = Color.WHITE;//长刻度的颜色
+    private float mDiscShortWidth = 2;//短刻度的宽度
+    private float mDiscShortLength = 25;//短刻度的长度
+    private int mDiscShortColor = Color.WHITE;//短刻度的颜色
+    private int mTextFont = 30;//数字大小
+    private int mTextColor = Color.WHITE;//数字颜色
+    private float mHourWidth = 10;//时针宽度
+    private float mHourLength = mDiscRadius / 2;//时针长度
+    private int mHourColor = Color.WHITE;//时针颜色
+    private float mMinuteWidth = 10;//分针宽度
+    private float mMinuteLength = mDiscRadius / 3 * 2;//分针长度
+    private int mMinuteColor = Color.WHITE;//分针颜色
+    private float mSecondWidth = 5;//秒针宽度
+    private float mSecondLength = mDiscRadius / 5 * 4;//秒针长度
+    private int mSecondColor = Color.RED;//秒针颜色
 
     private Timer mTimer = new Timer();
     private TimerTask mTask = new TimerTask() {
@@ -131,6 +148,10 @@ public class ClockView extends View {
             switch (attr) {
                 case R.styleable.ClockView_discRadius:
                     mDiscRadius = typedArray.getDimensionPixelSize(attr, 250);
+                    //求得圆盘半径后，根据圆盘半径按比例求时分秒针长度
+                    mHourLength = mDiscRadius / 2;
+                    mMinuteLength = mDiscRadius / 3 * 2;
+                    mSecondLength = mDiscRadius / 5 * 4;
                     break;
                 case R.styleable.ClockView_pointRadius:
                     mPointRadius = typedArray.getDimensionPixelSize(attr, 10);
@@ -144,7 +165,56 @@ public class ClockView extends View {
                 case R.styleable.ClockView_pointColor:
                     mPointColor = typedArray.getColor(attr, Color.WHITE);
                     break;
-
+                case R.styleable.ClockView_discLongWidth:
+                    mDiscLongWidth = typedArray.getDimensionPixelSize(attr, 4);
+                    break;
+                case R.styleable.ClockView_discLongLength:
+                    mDiscLongLength = typedArray.getDimensionPixelSize(attr, 50);
+                    break;
+                case R.styleable.ClockView_discLongColor:
+                    mDiscLongColor = typedArray.getColor(attr, Color.WHITE);
+                case R.styleable.ClockView_discShortWidth:
+                    mDiscShortWidth = typedArray.getDimensionPixelSize(attr, 2);
+                    break;
+                case R.styleable.ClockView_discShortLength:
+                    mDiscShortLength = typedArray.getDimensionPixelSize(attr, 25);
+                    break;
+                case R.styleable.ClockView_discShortColor:
+                    mDiscShortColor = typedArray.getColor(attr, Color.WHITE);
+                    break;
+                case R.styleable.ClockView_textFont:
+                    mTextFont = typedArray.getInt(attr, 30);
+                    break;
+                case R.styleable.ClockView_textColor:
+                    mTextColor = typedArray.getColor(attr, Color.WHITE);
+                    break;
+                case R.styleable.ClockView_hourWidth:
+                    mHourWidth = typedArray.getDimensionPixelSize(attr, 10);
+                    break;
+                case R.styleable.ClockView_hourLength:
+                    mHourLength = typedArray.getDimensionPixelSize(attr, (int) (mDiscRadius * 1f / 2));
+                    break;
+                case R.styleable.ClockView_hourColor:
+                    mHourColor = typedArray.getColor(attr, Color.WHITE);
+                    break;
+                case R.styleable.ClockView_minuteWidth:
+                    mMinuteWidth = typedArray.getDimensionPixelSize(attr, 10);
+                    break;
+                case R.styleable.ClockView_minuteLength:
+                    mMinuteLength = typedArray.getDimensionPixelSize(attr, (int) (mDiscRadius * 1f / 3 * 2));
+                    break;
+                case R.styleable.ClockView_minuteColor:
+                    mMinuteColor = typedArray.getColor(attr, Color.WHITE);
+                    break;
+                case R.styleable.ClockView_secondWidth:
+                    mSecondWidth = typedArray.getDimensionPixelSize(attr, 5);
+                    break;
+                case R.styleable.ClockView_secondLength:
+                    mSecondLength = typedArray.getDimensionPixelSize(attr, (int) (mDiscRadius * 1f / 5 * 4));
+                    break;
+                case R.styleable.ClockView_secondColor:
+                    mSecondColor = typedArray.getColor(attr, Color.RED);
+                    break;
             }
         }
         typedArray.recycle();
@@ -166,6 +236,52 @@ public class ClockView extends View {
 
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        setMeasuredDimension(measureWidth(widthMeasureSpec), measurHeight(heightMeasureSpec));
+    }
+
+    /**
+     * 自定义测量控件宽度方法
+     *
+     * @param measureSpec 测量模式
+     */
+    private int measureWidth(int measureSpec) {
+        int result;
+        int size = MeasureSpec.getSize(measureSpec);
+        int mode = MeasureSpec.getMode(measureSpec);
+        if (mode == MeasureSpec.EXACTLY) {//layout 里有具体的宽度值
+            result = size;
+        } else {
+            result = (int) ((mDiscRadius + mEdgeWidth) * 2);//控件宽度等于圆盘直径加边缘直径
+            if (mode == MeasureSpec.AT_MOST) {//layout 里 宽度wrapcontent
+                result = Math.min(result, size);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 自定义测量控件高度方法
+     *
+     * @param measureSpec 测量模式
+     */
+    private int measurHeight(int measureSpec) {
+        int result;
+        int size = MeasureSpec.getSize(measureSpec);
+        int mode = MeasureSpec.getMode(measureSpec);
+        if (mode == MeasureSpec.EXACTLY) {//layout 里有具体的宽度值
+            result = size;
+        } else {
+            result = (int) ((mDiscRadius + mEdgeWidth) * 2);
+            if (mode == MeasureSpec.AT_MOST) {//layout 里 宽度wrapcontent
+                result = Math.min(result, size);
+            }
+        }
+        return result;
+    }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -177,8 +293,8 @@ public class ClockView extends View {
         drawDiscEdge(canvas);
         //2.画圆心
         drawPoint(canvas);
-        //3.设置刻度线宽度
-        mPaint.setStrokeWidth(2);
+//        //3.设置刻度线宽度
+//        mPaint.setStrokeWidth(2);
         //4.移动画布到圆心
         canvas.translate(getWidth() / 2, getHeight() / 2);
         //5.画刻度线
@@ -216,10 +332,10 @@ public class ClockView extends View {
      */
     private void drawSecond(Canvas canvas) {
         canvas.save();
-        mPaint.setColor(Color.RED);
-        mPaint.setStrokeWidth(5);
+        mPaint.setColor(mSecondColor);
+        mPaint.setStrokeWidth(mSecondWidth);
         canvas.rotate(mSecondRotate);
-        canvas.drawLine(0, 0, 0, -mDiscRadius / 5 * 4, mPaint);
+        canvas.drawLine(0, 0, 0, -mSecondLength, mPaint);
         canvas.restore();
     }
 
@@ -230,8 +346,10 @@ public class ClockView extends View {
      */
     private void drawMinute(Canvas canvas) {
         canvas.save();
+        mPaint.setStrokeWidth(mMinuteWidth);
+        mPaint.setColor(mMinuteColor);
         canvas.rotate(mMinuteRotate);
-        canvas.drawLine(0, 0, 0, -mDiscRadius / 3 * 2, mPaint);
+        canvas.drawLine(0, 0, 0, -mMinuteLength, mPaint);
         canvas.restore();
     }
 
@@ -242,9 +360,10 @@ public class ClockView extends View {
      */
     private void drawHour(Canvas canvas) {
         canvas.save();
-        mPaint.setStrokeWidth(10);
+        mPaint.setStrokeWidth(mHourWidth);
+        mPaint.setColor(mHourColor);
         canvas.rotate(mHourRotate);
-        canvas.drawLine(0, 0, 0, -mDiscRadius / 2, mPaint);
+        canvas.drawLine(0, 0, 0, -mHourLength, mPaint);
         canvas.restore();
     }
 
@@ -255,7 +374,9 @@ public class ClockView extends View {
      */
     private void drawNumber(Canvas canvas) {
         canvas.save();
-        mPaint.setTextSize(30);
+        mPaint.setTextSize(mTextFont);
+        mPaint.setColor(mTextColor);
+        mPaint.setStrokeWidth(3);
         Rect textBounds = new Rect();//创建一个矩形，将文字放入其中，用于测量文字宽高
         for (int i = 0; i < 12; i++) {
             if (i == 0) {
@@ -312,11 +433,13 @@ public class ClockView extends View {
         int scaleLength;//刻度长度
         for (int i = 0; i < 60; i++) {
             if (i % 5 == 0) {//长刻度
-                scaleLength = 50;
-                mPaint.setStrokeWidth(4);
+                scaleLength = (int) mDiscLongLength;
+                mPaint.setStrokeWidth(mDiscLongWidth);
+                mPaint.setColor(mDiscLongColor);
             } else {//短刻度
-                scaleLength = 25;
-                mPaint.setStrokeWidth(2);
+                scaleLength = (int) mDiscShortLength;
+                mPaint.setStrokeWidth(mDiscShortWidth);
+                mPaint.setColor(mDiscShortColor);
             }
             canvas.drawLine(mDiscRadius - scaleLength, 0, mDiscRadius, 0, mPaint);
             canvas.rotate(6);
@@ -331,7 +454,7 @@ public class ClockView extends View {
      */
     private void drawPoint(Canvas canvas) {
         canvas.save();
-        mPaint.setColor(Color.WHITE);
+        mPaint.setColor(mPointColor);
         canvas.drawCircle(getWidth() / 2, getHeight() / 2, mPointRadius, mPaint);
         canvas.restore();
     }
