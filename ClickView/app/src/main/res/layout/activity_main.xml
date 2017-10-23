@@ -11,11 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        app:discRadius="150dp"
-        app:discLongColor="@color/richGold"
-        app:discShortWidth="2dp"
-        app:discShortColor="@color/richGold"
-        app:discLongWidth="4dp"
+        app:discRadius="350"
         app:textFont="30" />
 
     <EditText

@@ -147,17 +147,17 @@ public class ClockView extends View {
             int attr = typedArray.getIndex(i);
             switch (attr) {
                 case R.styleable.ClockView_discRadius:
-                    mDiscRadius = typedArray.getDimensionPixelSize(attr, 250);
+                    mDiscRadius = typedArray.getInt(attr, 250);
                     //求得圆盘半径后，根据圆盘半径按比例求时分秒针长度
                     mHourLength = mDiscRadius / 2;
                     mMinuteLength = mDiscRadius / 3 * 2;
                     mSecondLength = mDiscRadius / 5 * 4;
                     break;
                 case R.styleable.ClockView_pointRadius:
-                    mPointRadius = typedArray.getDimensionPixelSize(attr, 10);
+                    mPointRadius = typedArray.getInt(attr, 10);
                     break;
                 case R.styleable.ClockView_edgeWidth:
-                    mEdgeWidth = typedArray.getDimensionPixelSize(attr, 20);
+                    mEdgeWidth = typedArray.getInt(attr, 20);
                     break;
                 case R.styleable.ClockView_discColor:
                     mDiscColor = typedArray.getColor(attr, Color.BLACK);
@@ -166,18 +166,18 @@ public class ClockView extends View {
                     mPointColor = typedArray.getColor(attr, Color.WHITE);
                     break;
                 case R.styleable.ClockView_discLongWidth:
-                    mDiscLongWidth = typedArray.getDimensionPixelSize(attr, 4);
+                    mDiscLongWidth = typedArray.getInt(attr, 4);
                     break;
                 case R.styleable.ClockView_discLongLength:
-                    mDiscLongLength = typedArray.getDimensionPixelSize(attr, 50);
+                    mDiscLongLength = typedArray.getInt(attr, 50);
                     break;
                 case R.styleable.ClockView_discLongColor:
                     mDiscLongColor = typedArray.getColor(attr, Color.WHITE);
                 case R.styleable.ClockView_discShortWidth:
-                    mDiscShortWidth = typedArray.getDimensionPixelSize(attr, 2);
+                    mDiscShortWidth = typedArray.getInt(attr, 2);
                     break;
                 case R.styleable.ClockView_discShortLength:
-                    mDiscShortLength = typedArray.getDimensionPixelSize(attr, 25);
+                    mDiscShortLength = typedArray.getInt(attr, 25);
                     break;
                 case R.styleable.ClockView_discShortColor:
                     mDiscShortColor = typedArray.getColor(attr, Color.WHITE);
@@ -189,28 +189,28 @@ public class ClockView extends View {
                     mTextColor = typedArray.getColor(attr, Color.WHITE);
                     break;
                 case R.styleable.ClockView_hourWidth:
-                    mHourWidth = typedArray.getDimensionPixelSize(attr, 10);
+                    mHourWidth = typedArray.getInt(attr, 10);
                     break;
                 case R.styleable.ClockView_hourLength:
-                    mHourLength = typedArray.getDimensionPixelSize(attr, (int) (mDiscRadius * 1f / 2));
+                    mHourLength = typedArray.getInt(attr, (int) (mDiscRadius * 1f / 2));
                     break;
                 case R.styleable.ClockView_hourColor:
                     mHourColor = typedArray.getColor(attr, Color.WHITE);
                     break;
                 case R.styleable.ClockView_minuteWidth:
-                    mMinuteWidth = typedArray.getDimensionPixelSize(attr, 10);
+                    mMinuteWidth = typedArray.getInt(attr, 10);
                     break;
                 case R.styleable.ClockView_minuteLength:
-                    mMinuteLength = typedArray.getDimensionPixelSize(attr, (int) (mDiscRadius * 1f / 3 * 2));
+                    mMinuteLength = typedArray.getInt(attr, (int) (mDiscRadius * 1f / 3 * 2));
                     break;
                 case R.styleable.ClockView_minuteColor:
                     mMinuteColor = typedArray.getColor(attr, Color.WHITE);
                     break;
                 case R.styleable.ClockView_secondWidth:
-                    mSecondWidth = typedArray.getDimensionPixelSize(attr, 5);
+                    mSecondWidth = typedArray.getInt(attr, 5);
                     break;
                 case R.styleable.ClockView_secondLength:
-                    mSecondLength = typedArray.getDimensionPixelSize(attr, (int) (mDiscRadius * 1f / 5 * 4));
+                    mSecondLength = typedArray.getInt(attr, (int) (mDiscRadius * 1f / 5 * 4));
                     break;
                 case R.styleable.ClockView_secondColor:
                     mSecondColor = typedArray.getColor(attr, Color.RED);
